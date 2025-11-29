@@ -1,6 +1,7 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, Iterable
 from statistics import mean
+import matplotlib.pyplot as plt
 
 @dataclass
 class Sequence:
@@ -51,7 +52,6 @@ class Sequence:
         
         mySum = 0
         for i in sequences:
-            print(i.NtCounts)
             mySum += sum(i.NtCounts.values())
 
         return mySum
@@ -61,7 +61,24 @@ class Sequence:
         return len(list(sequences))
 
     @staticmethod
+    def ReadLen(sequences: Iterable["Sequence"]):
+        return [len(i.seq) for i in sequences]
+
+    @staticmethod
     def MeanReadLen(sequences: Iterable["Sequence"]):
-        
-        readLen = [len(i.seq) for i in sequences]
+        readLen = Sequence.ReadLen(sequences)
         return mean(readLen)
+    
+    @staticmethod
+    def WriteMeanReadHist(readLen: list[int], outfile: str):
+
+        plt.figure(figsize=(10, 6))
+        plt.hist(readLen, bins=20, color='blue', edgecolor='black', alpha=0.7)
+
+        plt.title('Read Length Distribution')
+        plt.xlabel('Read Length')
+        plt.ylabel('Frequency')
+        plt.savefig(outfile+'.png', format='png')
+
+        plt.close()
+        print(f"Plot saved for: {outfile}")
