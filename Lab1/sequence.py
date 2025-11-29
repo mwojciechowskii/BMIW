@@ -48,7 +48,7 @@ class Sequence:
         return mean(gcList) if gcList else 0.0
 
     @staticmethod
-    def SumFileNT(sequences: Iterable["Sequence"]):
+    def SumFileNT(sequences: Iterable["Sequence"]) -> int:
         
         mySum = 0
         for i in sequences:
@@ -57,15 +57,15 @@ class Sequence:
         return mySum
 
     @staticmethod
-    def CntReads(sequences: Iterable["Sequence"]):
+    def CntReads(sequences: Iterable["Sequence"]) -> int:
         return len(list(sequences))
 
     @staticmethod
-    def ReadLen(sequences: Iterable["Sequence"]):
+    def ReadLen(sequences: Iterable["Sequence"]) -> list[int]:
         return [len(i.seq) for i in sequences]
 
     @staticmethod
-    def MeanReadLen(sequences: Iterable["Sequence"]):
+    def MeanReadLen(sequences: Iterable["Sequence"]) -> float:
         readLen = Sequence.ReadLen(sequences)
         return mean(readLen)
     
