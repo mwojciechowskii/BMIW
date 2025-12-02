@@ -3,6 +3,23 @@ import gzip
 from sequence import Sequence
 import argparse
 import re
+import sys
+import threading
+import itertools
+import time
+
+def animate(stop):
+    """
+    REF:
+    https://stackoverflow.com/questions/22029562/python-how-to-make-simple-animated-loading-while-process-is-running
+    """
+    for c in itertools.cycle(['|', '/', '-', '\\']):
+        if stop.is_set():
+            break
+        sys.stdout.write('\rReading files  ' + c)
+        sys.stdout.flush()
+        time.sleep(0.1)
+    sys.stdout.write('\n')
 
 def readFile(file: str) -> List["Sequence"]:
     
@@ -50,7 +67,14 @@ def main():
 
     args = argParser()
     if not args.files:
-        args.files = ["IL_1.fastq.gz"]
+        args.files = ["IL_1.fastq.gz", "IL_1.fastq.gz", "NP.fastq.gz"]
+    print("-------------------------")
+
+    stop_run = threading.Event()
+    #daemon=True fixes keyboard interruption
+    t = threading.Thread(target=animate, args=(stop_run,), daemon=True)
+    t.start()
+
     FilesSequences = {}
     for file in args.files:
         seq = readFile(file)
@@ -61,7 +85,10 @@ def main():
             FilesSequences[filename].extend(seq)
         else:
             FilesSequences[filename] = seq
+    
+    stop_run.set()
+    t.join()
     Analyze(FilesSequences)
-        
+
 if __name__ == "__main__":
     main()
