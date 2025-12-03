@@ -59,7 +59,8 @@ def Analyze(fileSequences: dict[str, List]):
         print(f"Total num of read: {Sequence.CntReads(seq)}")
         print(f"Sum of nucleotides: {Sequence.SumFileNT(seq)}")
         readLen = Sequence.ReadLen(seq)
-        print(f"Mean read length: {Sequence.MeanReadLen(seq):.2f}")
+        print(f"Mean read length: {Sequence.MeanReadLen(readLen):.2f}")
+        print(f"Median read length: {Sequence.MedianReadLen(readLen)}")
         print(f"Mean GC count: {Sequence.calcMeanGC(seq):.2f}%")
         Sequence.WriteMeanReadHist(readLen, filename)
 

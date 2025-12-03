@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict, Iterable
-from statistics import mean
+from statistics import mean, median
 import matplotlib.pyplot as plt
 
 @dataclass
@@ -65,9 +65,13 @@ class Sequence:
         return [len(i.seq) for i in sequences]
 
     @staticmethod
-    def MeanReadLen(sequences: Iterable["Sequence"]):
-        readLen = Sequence.ReadLen(sequences)
-        return mean(readLen)
+    def MedianReadLen(readlen: list[int]):
+        return median(readlen) if readlen else None
+
+    @staticmethod
+    def MeanReadLen(readlen: list[int]):
+        #readLen = Sequence.ReadLen(sequences)
+        return mean(readlen) if readlen else None
     
     @staticmethod
     def WriteMeanReadHist(readLen: list[int], outfile: str):
