@@ -73,7 +73,7 @@ class Sequence:
     def WriteMeanReadHist(readLen: list[int], outfile: str):
 
         plt.figure(figsize=(10, 6))
-        plt.hist(readLen, bins=20, color='blue', edgecolor='black', alpha=0.7)
+        plt.hist(readLen, bins=80, color='blue', edgecolor='black', alpha=0.7)
 
         plt.title('Read Length Distribution')
         plt.xlabel('Read Length')
